@@ -6,8 +6,11 @@ type ConversationSidebarProps = {
   activeId: number;
   search: string;
   mobileListOpen: boolean;
+  filterMode: "all" | "unread";
   onSearchChange: (value: string) => void;
   onSelectConversation: (id: number) => void;
+  onFilterChange: (mode: "all" | "unread") => void;
+  onNewConversation: () => void;
 };
 
 export function ConversationSidebar({
@@ -15,8 +18,11 @@ export function ConversationSidebar({
   activeId,
   search,
   mobileListOpen,
+  filterMode,
   onSearchChange,
   onSelectConversation,
+  onFilterChange,
+  onNewConversation,
 }: ConversationSidebarProps) {
   return (
     <aside className={`conversation-panel ${mobileListOpen ? "mobile-open" : ""}`}>
@@ -27,7 +33,7 @@ export function ConversationSidebar({
             Messages <span>{conversations.length}</span>
           </h1>
         </div>
-        <button className="new-button" aria-label="New message">
+        <button className="new-button" aria-label="New message" onClick={onNewConversation}>
           <Plus size={19} />
         </button>
       </div>
@@ -42,11 +48,17 @@ export function ConversationSidebar({
       </label>
 
       <div className="filter-row">
-        <button className="filter-active">
+        <button
+          className={filterMode === "all" ? "filter-active" : ""}
+          onClick={() => onFilterChange("all")}
+        >
           All <span>{conversations.length}</span>
         </button>
-        <button>
-          Unread <span>2</span>
+        <button
+          className={filterMode === "unread" ? "filter-active" : ""}
+          onClick={() => onFilterChange("unread")}
+        >
+          Unread <span>{conversations.filter((item) => item.unread).length}</span>
         </button>
       </div>
 

@@ -5,9 +5,17 @@ type MessageComposerProps = {
   draft: string;
   onDraftChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onAttachFile: () => void;
+  onAddEmoji: () => void;
 };
 
-export function MessageComposer({ draft, onDraftChange, onSubmit }: MessageComposerProps) {
+export function MessageComposer({
+  draft,
+  onDraftChange,
+  onSubmit,
+  onAttachFile,
+  onAddEmoji,
+}: MessageComposerProps) {
   return (
     <form className="composer" onSubmit={onSubmit}>
       <div className="composer-input">
@@ -25,10 +33,10 @@ export function MessageComposer({ draft, onDraftChange, onSubmit }: MessageCompo
         />
 
         <div className="composer-tools">
-          <button type="button" aria-label="Attach file">
+          <button type="button" aria-label="Attach file" onClick={onAttachFile}>
             <Paperclip size={18} />
           </button>
-          <button type="button" aria-label="Add emoji">
+          <button type="button" aria-label="Add emoji" onClick={onAddEmoji}>
             <Smile size={18} />
           </button>
           <span>Enter to send</span>

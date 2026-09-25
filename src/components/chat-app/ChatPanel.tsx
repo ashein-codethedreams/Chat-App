@@ -7,20 +7,28 @@ type ChatPanelProps = {
   conversation: Conversation;
   draft: string;
   mobileListOpen: boolean;
+  chatMenuOpen: boolean;
   onDraftChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onToggleMobileList: () => void;
   onCloseMobileList: () => void;
+  onToggleChatMenu: () => void;
+  onAttachFile: () => void;
+  onAddEmoji: () => void;
 };
 
 export function ChatPanel({
   conversation,
   draft,
   mobileListOpen,
+  chatMenuOpen,
   onDraftChange,
   onSubmit,
   onToggleMobileList,
   onCloseMobileList,
+  onToggleChatMenu,
+  onAttachFile,
+  onAddEmoji,
 }: ChatPanelProps) {
   return (
     <>
@@ -45,9 +53,20 @@ export function ChatPanel({
           </div>
 
           <div className="chat-actions">
-            <button className="icon-button" aria-label="More options">
+            <button
+              className={`icon-button ${chatMenuOpen ? "active" : ""}`}
+              aria-label="More options"
+              onClick={onToggleChatMenu}
+            >
               <MoreHorizontal size={20} />
             </button>
+            {chatMenuOpen && (
+              <div className="chat-menu">
+                <button type="button">Mark as unread</button>
+                <button type="button">Mute thread</button>
+                <button type="button">Archive chat</button>
+              </div>
+            )}
           </div>
         </header>
 
@@ -71,7 +90,13 @@ export function ChatPanel({
           </div>
         </div>
 
-        <MessageComposer draft={draft} onDraftChange={onDraftChange} onSubmit={onSubmit} />
+        <MessageComposer
+          draft={draft}
+          onDraftChange={onDraftChange}
+          onSubmit={onSubmit}
+          onAttachFile={onAttachFile}
+          onAddEmoji={onAddEmoji}
+        />
       </section>
 
       {mobileListOpen && (
